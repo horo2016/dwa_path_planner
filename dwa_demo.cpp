@@ -26,7 +26,7 @@ int main(){
                         {5.0, 4.0},
                         {5.0, 5.0},
                         {2.0, 5.0},
-                        {1.0, 5.0},
+                       // {1.0, 5.0},
                         {-5.0, 4.0},
                         {-5.0, 6.0},
                         
@@ -47,7 +47,8 @@ int main(){
     cv::Mat final_canvas;
     Traj ltraj;
     State x;
-    while(!dwa_demo.stepOnceToGoal(&ltraj, &x)){
+	Obstacle dyn_ob;
+    while(!dwa_demo.stepOnceToGoal(&ltraj, &x,&dyn_ob)){
         traj.push_back(x);
 
         // visualization
@@ -55,8 +56,8 @@ int main(){
         cv::circle(bg, cv_offset(goal.x_, goal.y_, bg.cols, bg.rows),
                    3, cv::Scalar(255,0,0), 5);
 				   
-        for(unsigned int j=0; j<ob.size(); j++){
-            cv::circle(bg, cv_offset(ob[j].x_, ob[j].y_, bg.cols, bg.rows),
+        for(unsigned int j=0; j<dyn_ob.size(); j++){
+            cv::circle(bg, cv_offset(dyn_ob[j].x_, dyn_ob[j].y_, bg.cols, bg.rows),
                        5, cv::Scalar(0,0,0), -1);
         }
         for(unsigned int j=0; j<ltraj.size(); j++){

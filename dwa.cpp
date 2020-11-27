@@ -16,9 +16,17 @@ cur_x_(start), goal_(goal), obs_(obs), config_(config)
 
 }
 
-bool Dwa::stepOnceToGoal(std::vector<State>* best_trajectry, State* cur_state) {
+bool Dwa::stepOnceToGoal(std::vector<State>* best_trajectry, State* cur_state,Obstacle *cur_obs) 
+{
     Control calculated_u;
+	static int ccn=0;
     Window dw = calc_dynamic_window(cur_x_, config_);
+	 
+	if(ccn ++ >= 50)
+	{
+	 Point ob{1.0,5.0};
+	 obs_.push_back(ob);
+	}
     Traj ltraj = calc_final_input(cur_x_, calculated_u, dw, config_, goal_, obs_);
     printf("control (v,w) (%.1f,%.1f)\n ",calculated_u.v_,calculated_u.w_);
 	//w >0 左转 <0 右转
@@ -27,6 +35,7 @@ bool Dwa::stepOnceToGoal(std::vector<State>* best_trajectry, State* cur_state) {
     //
     *best_trajectry = ltraj;
     *cur_state = cur_x_;
+	*cur_obs = obs_;
     if (std::sqrt(std::pow((cur_x_.x_ - goal_.x_), 2) + std::pow((cur_x_.y_ - goal_.y_), 2)) <= config_.robot_radius){
        return true;
     }
