@@ -25,7 +25,7 @@ int main(){
                         
                         {5.0, 4.0},
                         {5.0, 5.0},
-                        {2.0, 5.0},
+                       // {2.0, 5.0},
                        // {1.0, 5.0},
                         {-5.0, 4.0},
                         {-5.0, 6.0},
@@ -48,6 +48,17 @@ int main(){
     Traj ltraj;
     State x;
 	Obstacle dyn_ob;
+	 
+	   
+ 	cv::VideoWriter writer;
+	writer.open("out_dwa.avi",CV_FOURCC('M', 'J', 'P', 'G'),
+        20, //不进行跟踪，定位，只显示、录制时的帧率
+        cv::Size(500,500),
+        true);
+    if (!writer.isOpened())
+    {
+        return 0;
+    }
     while(!dwa_demo.stepOnceToGoal(&ltraj, &x,&dyn_ob)){
         traj.push_back(x);
 
@@ -79,9 +90,9 @@ int main(){
        // cv::imwrite("dwa.jpg", bg);
          
 
-         std::string int_count = std::to_string(count);
-         cv::imwrite("/home/pi/dwa/"+int_count+".jpg", bg);
-     
+       //  std::string int_count = std::to_string(count);
+        // cv::imwrite("/home/pi/dwa/"+int_count+".jpg", bg);
+      writer.write(bg);
         count++;
         final_canvas = bg;
     }
@@ -96,7 +107,7 @@ int main(){
         cv::imwrite("dwa2.jpg", final_canvas);
         
     }
-    
+     writer.release();
     return 0;
 
 
