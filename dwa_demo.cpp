@@ -91,10 +91,10 @@ int main(){
 		
        // cv::imwrite("dwa.jpg", bg);
          
-
-       //  std::string int_count = std::to_string(count);
-        // cv::imwrite("/home/pi/dwa/"+int_count+".jpg", bg);
-      writer.write(bg);
+        writer.write(bg);
+        // std::string int_count = std::to_string(count);
+         //cv::imwrite("/home/pi/dwa/"+int_count+".jpg", bg);
+     
         count++;
         final_canvas = bg;
     }
